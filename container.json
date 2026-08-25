@@ -1,0 +1,94 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ContainerRead",
+      "Effect": "Allow",
+      "Action": [
+        "ecs:Describe*",
+        "ecs:List*",
+        "ecr:Describe*",
+        "ecr:List*",
+        "ecr:Get*",
+        "ecr:BatchGetImage",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchCheckLayerAvailability",
+        "logs:Describe*",
+        "logs:Get*",
+        "logs:FilterLogEvents",
+        "s3:ListBucket",
+        "s3:GetObject",
+        "elasticloadbalancing:Describe*",
+        "cloudformation:Describe*",
+        "cloudformation:List*",
+        "secretsmanager:GetSecretValue",
+        "ssm:GetParameter*",
+        "iam:Get*",
+        "iam:List*",
+        "sts:GetCallerIdentity"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ContainerWrite",
+      "Effect": "Allow",
+      "Action": [
+        "ecs:RegisterTaskDefinition",
+        "ecs:DeregisterTaskDefinition",
+        "ecs:CreateService",
+        "ecs:UpdateService",
+        "ecs:DeleteService",
+        "ecs:RunTask",
+        "ecs:StopTask",
+        "ecs:StartTask",
+        "ecr:CreateRepository",
+        "ecr:PutImage",
+        "ecr:InitiateLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:CompleteLayerUpload",
+        "ecr:DeleteRepository",
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "s3:PutObject",
+        "s3:DeleteObject",
+        "cloudformation:CreateStack",
+        "cloudformation:UpdateStack",
+        "cloudformation:CreateChangeSet",
+        "cloudformation:ExecuteChangeSet"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "PassRoleForECS",
+      "Effect": "Allow",
+      "Action": "iam:PassRole",
+      "Resource": [
+        "arn:aws:iam::*:role/ecsTaskExecutionRole*",
+        "arn:aws:iam::*:role/*ECS*",
+        "arn:aws:iam::*:role/ecs*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "iam:PassedToService": [
+            "ecs-tasks.amazonaws.com",
+            "ecs.amazonaws.com"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "DenyDangerous",
+      "Effect": "Deny",
+      "Action": [
+        "iam:*",
+        "ec2:Create*",
+        "ec2:Delete*",
+        "ec2:Modify*",
+        "s3:DeleteBucket",
+        "cloudformation:DeleteStack"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
