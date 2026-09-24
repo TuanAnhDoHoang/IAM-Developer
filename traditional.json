@@ -7,27 +7,48 @@
       "Action": [
         "ec2:Describe*",
         "ec2:Get*",
+
         "elasticbeanstalk:Describe*",
         "elasticbeanstalk:List*",
+
         "rds:Describe*",
         "rds:List*",
+
         "s3:ListAllMyBuckets",
         "s3:GetBucketLocation",
         "s3:ListBucket",
         "s3:GetObject",
+
         "logs:Describe*",
         "logs:Get*",
         "logs:FilterLogEvents",
+
         "cloudwatch:Describe*",
         "cloudwatch:Get*",
+        
         "ssm:Describe*",
         "ssm:Get*",
+
         "secretsmanager:GetSecretValue",
+
         "iam:Get*",
         "iam:List*",
+
         "sts:GetCallerIdentity"
       ],
-      "Resource": "*"
+      "Resource": [
+        "arn:aws:ec2:<region>:<account-id>:instance/*",
+        "arn:aws:elasticbeanstalk:<region>:<account-id>:application/<application-name>",
+        "arn:aws:elasticbeanstalk:<region>:<account-id>:environment/<application-name>/<environment-name>",
+        "arn:aws:rds:<region>:<account-id>:db:<db-instance-identifier>",
+        "arn:aws:s3:::<bucket-name>/*",
+        "arn:aws:logs:<region>:<account-id>:log-group:/aws/elasticbeanstalk/<environment-name>",
+        "arn:aws:logs:<region>:<account-id>:log-group:/aws/elasticbeanstalk/<environment-name>:*",
+        "arn:aws:cloudwatch:<region>:<account-id>:alarm/<alarm-name>",
+        "arn:aws:ssm:<region>:<account-id>:parameter/<parameter-path>",
+        "arn:aws:secretsmanager:<region>:<account-id>:secret:<secret-name>*",
+        "arn:aws:iam::<account-id>:role/<role-name>"
+      ]
     },
     {
       "Sid": "WebAppWrite",
@@ -53,13 +74,21 @@
         "ssm:TerminateSession",
         "ssm:ResumeSession"
       ],
-      "Resource": "*"
+      "Resource": [
+        "arn:aws:ec2:<region>:<account-id>:instance/*",
+        "arn:aws:elasticbeanstalk:<region>:<account-id>:application/<application-name>",
+        "arn:aws:elasticbeanstalk:<region>:<account-id>:environment/<application-name>/<environment-name>",
+        "arn:aws:s3:::<bucket-name>/*",
+        "arn:aws:logs:<region>:<account-id>:log-group:/aws/elasticbeanstalk/<environment-name>",
+        "arn:aws:logs:<region>:<account-id>:log-group:/aws/elasticbeanstalk/<environment-name>:*",
+        "arn:aws:ssm:<region>:<account-id>:parameter/<parameter-path>"
+      ]
     },
     {
       "Sid": "PassRoleForEC2",
       "Effect": "Allow",
       "Action": "iam:PassRole",
-      "Resource": "arn:aws:iam::*:role/EC2*",
+      "Resource": "arn:aws:iam::<account-id>:role/<ec2-instance-profile-role-name>",
       "Condition": {
         "StringEquals": {
           "iam:PassedToService": "ec2.amazonaws.com"

@@ -36,7 +36,30 @@
         "iam:List*",
         "sts:GetCallerIdentity"
       ],
-      "Resource": "*"
+      "Resource": [
+        "arn:aws:lambda:<region>:<account-id>:function:<function-name>",
+        "arn:aws:ecs:<region>:<account-id>:cluster/<cluster-name>",
+        "arn:aws:ecs:<region>:<account-id>:service/<cluster-name>/<service-name>",
+        "arn:aws:ecs:<region>:<account-id>:task-definition/<task-family>:*",
+        "arn:aws:ecr:<region>:<account-id>:repository/<repository-name>",
+        "arn:aws:s3:::<bucket-name>/*",
+        "arn:aws:dynamodb:<region>:<account-id>:table/<table-name>",
+        "arn:aws:sqs:<region>:<account-id>:<queue-name>",
+        "arn:aws:sns:<region>:<account-id>:<topic-name>",
+        "arn:aws:events:<region>:<account-id>:rule/<rule-name>",
+        "arn:aws:logs:<region>:<account-id>:log-group:<log-group-name>",
+        "arn:aws:logs:<region>:<account-id>:log-group:<log-group-name>:*",
+        "arn:aws:cloudwatch:<region>:<account-id>:alarm/<alarm-name>",
+        "arn:aws:xray:<region>:<account-id>:group/<group-name>",
+        "arn:aws:cloudformation:<region>:<account-id>:stack/<stack-name>/*",
+        "arn:aws:codebuild:<region>:<account-id>:project/<project-name>",
+        "arn:aws:codepipeline:<region>:<account-id>:pipeline/<pipeline-name>",
+        "arn:aws:ec2:<region>:<account-id>:instance/*",
+        "arn:aws:rds:<region>:<account-id>:db:<db-instance-identifier>",
+        "arn:aws:secretsmanager:<region>:<account-id>:secret:<secret-name>*",
+        "arn:aws:ssm:<region>:<account-id>:parameter/<parameter-path>",
+        "arn:aws:iam::<account-id>:role/<role-name>"
+      ]
     },
     {
       "Sid": "FullstackWrite",
@@ -73,16 +96,29 @@
         "logs:CreateLogStream",
         "logs:PutLogEvents"
       ],
-      "Resource": "*"
+      "Resource": [
+        "arn:aws:lambda:<region>:<account-id>:function:<function-name>",
+        "arn:aws:ecs:<region>:<account-id>:cluster/<cluster-name>",
+        "arn:aws:ecs:<region>:<account-id>:service/<cluster-name>/<service-name>",
+        "arn:aws:ecs:<region>:<account-id>:task-definition/<task-family>:*",
+        "arn:aws:ecr:<region>:<account-id>:repository/<repository-name>",
+        "arn:aws:s3:::<bucket-name>/*",
+        "arn:aws:dynamodb:<region>:<account-id>:table/<table-name>",
+        "arn:aws:cloudformation:<region>:<account-id>:stack/<stack-name>/*",
+        "arn:aws:codebuild:<region>:<account-id>:project/<project-name>",
+        "arn:aws:codepipeline:<region>:<account-id>:pipeline/<pipeline-name>",
+        "arn:aws:logs:<region>:<account-id>:log-group:<log-group-name>",
+        "arn:aws:logs:<region>:<account-id>:log-group:<log-group-name>:*"
+      ]
     },
     {
       "Sid": "PassRoleLimited",
       "Effect": "Allow",
       "Action": "iam:PassRole",
       "Resource": [
-        "arn:aws:iam::*:role/lambda*",
-        "arn:aws:iam::*:role/ecs*",
-        "arn:aws:iam::*:role/*ServiceRole*"
+        "arn:aws:iam::<account-id>:role/<lambda-execution-role-name>",
+        "arn:aws:iam::<account-id>:role/<ecs-task-role-name>",
+        "arn:aws:iam::<account-id>:role/<service-role-name>"
       ],
       "Condition": {
         "StringEquals": {

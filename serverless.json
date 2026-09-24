@@ -44,7 +44,23 @@
         "iam:List*",
         "sts:GetCallerIdentity"
       ],
-      "Resource": "*"
+      "Resource": [
+        "arn:aws:lambda:<region>:<account-id>:function:<function-name>",
+        "arn:aws:apigateway:<region>::/restapis/<api-id>",
+        "arn:aws:apigateway:<region>::/restapis/<api-id>/stages/<stage-name>",
+        "arn:aws:dynamodb:<region>:<account-id>:table/<table-name>",
+        "arn:aws:s3:::<bucket-name>/*",
+        "arn:aws:events:<region>:<account-id>:rule/<rule-name>",
+        "arn:aws:sqs:<region>:<account-id>:<queue-name>",
+        "arn:aws:sns:<region>:<account-id>:<topic-name>",
+        "arn:aws:logs:<region>:<account-id>:log-group:/aws/lambda/<function-name>",
+        "arn:aws:logs:<region>:<account-id>:log-group:/aws/lambda/<function-name>:*",
+        "arn:aws:xray:<region>:<account-id>:group/<group-name>",
+        "arn:aws:cloudformation:<region>:<account-id>:stack/<stack-name>/*",
+        "arn:aws:secretsmanager:<region>:<account-id>:secret:<secret-name>*",
+        "arn:aws:ssm:<region>:<account-id>:parameter/<parameter-path>",
+        "arn:aws:iam::<account-id>:role/<role-name>"
+      ]
     },
     {
       "Sid": "ServerlessWrite",
@@ -93,13 +109,25 @@
         "cloudformation:ExecuteChangeSet",
         "cloudformation:DeleteChangeSet"
       ],
-      "Resource": "*"
+      "Resource": [
+        "arn:aws:lambda:<region>:<account-id>:function:<function-name>",
+        "arn:aws:apigateway:<region>::/restapis/<api-id>",
+        "arn:aws:apigateway:<region>::/restapis/<api-id>/stages/<stage-name>",
+        "arn:aws:dynamodb:<region>:<account-id>:table/<table-name>",
+        "arn:aws:s3:::<bucket-name>/*",
+        "arn:aws:events:<region>:<account-id>:rule/<rule-name>",
+        "arn:aws:sqs:<region>:<account-id>:<queue-name>",
+        "arn:aws:sns:<region>:<account-id>:<topic-name>",
+        "arn:aws:logs:<region>:<account-id>:log-group:/aws/lambda/<function-name>",
+        "arn:aws:logs:<region>:<account-id>:log-group:/aws/lambda/<function-name>:*",
+        "arn:aws:cloudformation:<region>:<account-id>:stack/<stack-name>/*"
+      ]
     },
     {
       "Sid": "PassRoleForLambda",
       "Effect": "Allow",
       "Action": "iam:PassRole",
-      "Resource": "arn:aws:iam::*:role/lambda*",
+      "Resource": "arn:aws:iam::<account-id>:role/<lambda-execution-role-name>",
       "Condition": {
         "StringEquals": {
           "iam:PassedToService": "lambda.amazonaws.com"

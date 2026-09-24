@@ -27,7 +27,20 @@
         "iam:List*",
         "sts:GetCallerIdentity"
       ],
-      "Resource": "*"
+      "Resource": [
+        "arn:aws:ecs:<region>:<account-id>:cluster/<cluster-name>",
+        "arn:aws:ecs:<region>:<account-id>:service/<cluster-name>/<service-name>",
+        "arn:aws:ecs:<region>:<account-id>:task-definition/<task-family>:*",
+        "arn:aws:ecr:<region>:<account-id>:repository/<repository-name>",
+        "arn:aws:elasticloadbalancing:<region>:<account-id>:loadbalancer/<load-balancer-name>",
+        "arn:aws:logs:<region>:<account-id>:log-group:/aws/ecs/<cluster-name>",
+        "arn:aws:logs:<region>:<account-id>:log-group:/aws/ecs/<cluster-name>/*",
+        "arn:aws:s3:::<bucket-name>/*",
+        "arn:aws:secretsmanager:<region>:<account-id>:secret:<secret-name>*",
+        "arn:aws:ssm:<region>:<account-id>:parameter/<parameter-path>",
+        "arn:aws:cloudformation:<region>:<account-id>:stack/<stack-name>/*",
+        "arn:aws:iam::<account-id>:role/<role-name>"
+      ]
     },
     {
       "Sid": "ContainerWrite",
@@ -57,16 +70,25 @@
         "cloudformation:CreateChangeSet",
         "cloudformation:ExecuteChangeSet"
       ],
-      "Resource": "*"
+      "Resource": [
+        "arn:aws:ecs:<region>:<account-id>:cluster/<cluster-name>",
+        "arn:aws:ecs:<region>:<account-id>:service/<cluster-name>/<service-name>",
+        "arn:aws:ecs:<region>:<account-id>:task-definition/<task-family>:*",
+        "arn:aws:ecr:<region>:<account-id>:repository/<repository-name>",
+        "arn:aws:logs:<region>:<account-id>:log-group:/aws/ecs/<cluster-name>",
+        "arn:aws:logs:<region>:<account-id>:log-group:/aws/ecs/<cluster-name>/*",
+        "arn:aws:s3:::<bucket-name>/*",
+        "arn:aws:cloudformation:<region>:<account-id>:stack/<stack-name>/*"
+      ]
     },
     {
       "Sid": "PassRoleForECS",
       "Effect": "Allow",
       "Action": "iam:PassRole",
       "Resource": [
-        "arn:aws:iam::*:role/ecsTaskExecutionRole*",
-        "arn:aws:iam::*:role/*ECS*",
-        "arn:aws:iam::*:role/ecs*"
+        "arn:aws:iam::<account-id>:role/<ecs-task-execution-role-name>",
+        "arn:aws:iam::<account-id>:role/<ecs-service-role-name>",
+        "arn:aws:iam::<account-id>:role/<ecs-task-role-name>"
       ],
       "Condition": {
         "StringEquals": {
